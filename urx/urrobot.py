@@ -302,7 +302,7 @@ class URRobot(object):
         tpose.append(radius)
         return "{}({}[{},{},{},{},{},{}], a={}, v={}, r={})".format(command, prefix, *tpose)
 
-    def movex(self, command, tpose, acc=0.01, vel=0.01, wait=True, relative=False, threshold=None):
+    def movex(self, command, tpose, acc=0.1, vel=0.1, wait=False, relative=False, threshold=None):
         """
         Send a move command to the robot. since UR robotene have several methods this one
         sends whatever is defined in 'command' string
@@ -367,6 +367,24 @@ class URRobot(object):
         self.send_program(prog)
         if wait:
             self._wait_for_move(target=pose_list[-1], threshold=threshold)
+            return self.getl()
+
+    def movejp(self, pose, acc=0.01, vel=0.01, wait=True, threshold=None):
+
+        pose = [round(i, self.max_float_length) for i in pose]
+        prog = "movej(%s, a=%s, v=%s)" % (pose, acc, vel)
+        self.send_program(prog)
+        if wait:
+            self._wait_for_move(pose, threshold=threshold)
+            return self.getl()
+
+    def movelp(self, pose, acc=0.01, vel=0.01, wait=True, threshold=None):
+
+        pose = [round(i, self.max_float_length) for i in pose]
+        prog = "movel(%s, a=%s, v=%s)" % (pose, acc, vel)
+        self.send_program(prog)
+        if wait:
+            self._wait_for_move(pose, threshold=threshold)
             return self.getl()
 
     def stopl(self, acc=0.5):

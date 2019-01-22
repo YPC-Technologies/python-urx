@@ -47,7 +47,7 @@ class Robot(URRobot):
         """
         self.csys = transform
 
-    def set_orientation(self, orient, acc=0.01, vel=0.01, wait=True, threshold=None):
+    def set_orientation(self, orient, acc=0.1, vel=0.1, wait=False, threshold=None):
         """
         set tool orientation using a orientation matric from math3d
         or a orientation vector
@@ -58,7 +58,7 @@ class Robot(URRobot):
         trans.orient = orient
         self.set_pose(trans, acc, vel, wait=wait, threshold=threshold)
 
-    def translate_tool(self, vect, acc=0.01, vel=0.01, wait=True, threshold=None):
+    def translate_tool(self, vect, acc=0.1, vel=0.1, wait=False, threshold=None):
         """
         move tool in tool coordinate, keeping orientation
         """
@@ -93,8 +93,8 @@ class Robot(URRobot):
         pose = URRobot.movec(self, pose_via.pose_vector, pose_to.pose_vector, acc=acc, vel=vel, wait=wait, threshold=threshold)
         if pose is not None:
             return self.csys.inverse * m3d.Transform(pose)
-
-    def set_pose(self, trans, acc=0.01, vel=0.01, wait=True, command="movel", threshold=None):
+    # DISPENSE TURN HERE
+    def set_pose(self, trans, acc=0.2, vel=0.2, wait=False, command="movel", threshold=None):
         """
         move tcp to point and orientation defined by a transformation
         UR robots have several move commands, by default movel is used but it can be changed
