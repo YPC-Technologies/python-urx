@@ -88,8 +88,8 @@ class RobotiqScript(URScript):
             self.add_header_to_program(rq_script)
 
     def _rq_get_var(self, var_name, nbytes):
-        self._socket_send_string("GET {}".format(var_name))
-        self._socket_read_byte_list(nbytes)
+        self._socket_send_string("GET {}".format(var_name), self.socket_name)
+        self._socket_read_byte_list(nbytes, self.socket_name)
 
     def _get_gripper_fault(self):
         self._rq_get_var(FLT, 2)
@@ -211,6 +211,10 @@ class Robotiq_Two_Finger_Gripper(object):
         # sleep the code the same amount as the urscript to ensure that
         # the action completes
         time.sleep(sleep)
+    
+    def get_status(self):
+        urscript = self._get_new_urscript()
+        return urscript._get_gripper_status()
 
     def open_gripper(self):
         self.gripper_action(0)
