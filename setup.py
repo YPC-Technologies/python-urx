@@ -5,7 +5,6 @@ from catkin_pkg.python_setup import generate_distutils_setup
 setup_args = generate_distutils_setup(
             packages=['urx'],
             package_dir={'': './'},
-            install_requires=["numpy", "math3d"],
         )
 
 setup(**setup_args)
