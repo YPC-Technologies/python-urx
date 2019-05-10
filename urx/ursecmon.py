@@ -333,7 +333,7 @@ class SecondaryMonitor(Thread):
                 tmp = self._s_secondary.recv(1024)
                 self._dataqueue += tmp
 
-    def wait(self, timeout=0.5):
+    def wait(self, timeout=1.5):
         """
         wait for next data packet from robot
         """
